@@ -1,0 +1,54 @@
+[
+  {"question": "Q1_section1.a.i", "expected_answer": "Adult", "max_marks": 3},
+  {"question": "Q1_section1.a.ii", "expected_answer": "1,3,5,7,9", "alternatives": ["1\n3\n5\n7\n9", "1 3 5 7 9", "1, 3, 5, 7, 9"], "max_marks": 3},
+  {"question": "Q1_section1.b", "expected_answer": "6", "max_marks": 2},
+  {"question": "Q1_section1.c", "expected_answer": "25", "max_marks": 2},
+
+  {"question": "Q2_section1", "expected_answer": "Flowchart: if number % 2 == 0 then even else odd", "max_marks": 10},
+
+  {"question": "Q3_section1", "expected_answer": "Flowchart Steps: Start Input 'Marks' Decision blocks for grade A/B/C/S/F based on marks ranges", "alternatives": [
+    "Flowchart Steps: Start Input 'Marks' Decision: Is Marks > 75? Yes → Grade = A → Go to Step 9 No → Go to Step 4 Decision: Is Marks ≥ 60? Yes → Grade = B → Go to Step 9 No → Go to Step 5 Decision: Is Marks ≥ 50? Yes → Grade = C → Go to Step 9 No → Go to Step 6 Decision: Is Marks ≥ 40? Yes → Grade = S → Go to Step 9 No → Go to Step 7 Grade = F Display Grade End",
+    "Flowchart Steps: Start Input 'Marks' Decision: Is Marks < 40? Yes → Grade = F → Go to Step 9 No → Go to Step 4 Decision: Is Marks < 50? Yes → Grade = S → Go to Step 9 No → Go to Step 5 Decision: Is Marks < 60? Yes → Grade = C → Go to Step 9 No → Go to Step 6 Decision: Is Marks < 75? Yes → Grade = B → Go to Step 9 No → Grade = A Display Grade End",
+    "Flowchart Steps: Start Input 'Marks' Decision block with accurate ranges: If Marks > 75 → Grade A Else if Marks ≥ 60 and ≤ 74 → Grade B Else if Marks ≥ 50 and ≤ 59 → Grade C Else if Marks ≥ 40 and ≤ 49 → Grade S Else → Grade F Display Grade End"
+  ], "max_marks": 15},
+
+  {"question": "Q4_section1", "expected_answer": "count = 0\ntotal = 0\n\nwhile count < 5:\n    mark = float(input(f\"Enter mark {count + 1}: \"))\n    total += mark\n    count += 1\n\naverage = total / 5\n\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")", "max_marks": 15},
+
+
+
+  
+  {"question": "Q1_section2.a", "expected_answer": "Enter the first Student's mark =", "max_marks": 3},
+  {"question": "Q1_section2.b", "expected_answer": "Highest mark is 54", "max_marks": 3},
+  {"question": "Q1_section2.c", "expected_answer": "mark1, mark2, highest", "alternatives": ["3 variables: mark1, mark2, highest", "mark1\nmark2\nhighest"], "max_marks": 6},
+  {"question": "Q1_section2.d", "expected_answer": "int", "alternatives": ["integer", "Integer (int)"], "max_marks": 3},
+
+  {"question": "Q2_section2", "expected_answer": "if salary <15000 -> 10%, 15000-25000 -> 15%, >25000 -> 20% bonus. Net = basic + bonus", "alternatives": [
+    "basic_salary = float(input(\"Enter the Basic Salary: \\n\"))\nif basic_salary < 15000:\n    bonus = basic_salary * 0.10\nelif 15000 <= basic_salary <= 25000:\n    bonus = basic_salary * 0.15\nelse:\n    bonus = basic_salary * 0.20\nnet_salary = basic_salary + bonus\nprint(f\"Net Salary: {net_salary:.2f}\")",
+
+    "basic_salary = float(input(\"Enter the Basic Salary: \\n\"))\nif basic_salary < 15000:\n    bonus = basic_salary * 0.10\nelse:\n    if basic_salary <= 25000:\n        bonus = basic_salary * 0.15\n    else:\n        bonus = basic_salary * 0.20\nnet_salary = basic_salary + bonus\nprint(f\"Net Salary: {net_salary:.2f}\")",
+
+    "def calculate_bonus(basic):\n    if basic < 15000:\n        return basic * 0.10\n    elif basic <= 25000:\n        return basic * 0.15\n    else:\n        return basic * 0.20\nbasic_salary = float(input(\"Enter the Basic Salary: \\n\"))\nbonus = calculate_bonus(basic_salary)\nnet_salary = basic_salary + bonus\nprint(f\"Net Salary: {net_salary:.2f}\")"
+  ], "max_marks": 15},
+
+  {"question": "Q3_section2", "expected_answer": "loop to input 5 marks, calculate total and average", "alternatives": [
+    "mark1 = float(input(\"Enter mark 1: \\n\"))\nmark2 = float(input(\"Enter mark 2: \\n\"))\nmark3 = float(input(\"Enter mark 3: \\n\"))\nmark4 = float(input(\"Enter mark 4: \\n\"))\nmark5 = float(input(\"Enter mark 5: \\n\"))\ntotal = mark1 + mark2 + mark3 + mark4 + mark5\naverage = total / 5\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")",
+
+    "marks = []\nfor i in range(5):\n    mark = float(input(f\"Enter mark {i + 1}: \"))\n    marks.append(mark)\ntotal = sum(marks)\naverage = total / len(marks)\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")",
+
+    "def get_student_marks(n):\n    return [float(input(f\"Enter mark {i+1}: \")) for i in range(n)]\ndef calculate_total_and_average(marks):\n    total = sum(marks)\n    average = total / len(marks)\n    return total, average\nmarks = get_student_marks(5)\ntotal, average = calculate_total_and_average(marks)\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")",
+
+    "count = 0\ntotal = 0\nwhile count < 5:\n    mark = float(input(f\"Enter mark {count + 1}: \"))\n    total += mark\n    count += 1\naverage = total / 5\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")",
+
+    "marks = [float(input(f\"Enter mark {i+1}: \")) for i in range(5)]\ntotal = sum(marks)\naverage = total / len(marks)\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")",
+
+    "total = 0\nfor i in range(5):\n    mark = float(input(f\"Enter mark {i + 1}: \"))\n    total += mark\naverage = total / 5\nprint(f\"Total Marks = {total}\")\nprint(f\"Average Marks = {average:.2f}\")"
+  ], "max_marks": 10},
+
+  {"question": "Q4_section2", "expected_answer": "units used <30 -> 1.5, <90 -> 2.5, >90 -> 4.5 per unit", "alternatives": [
+    "prev_reading = float(input(\"Enter previous meter reading: \"))\npresent_reading = float(input(\"Enter present meter reading: \"))\nunits_used = present_reading - prev_reading\nif units_used < 30:\n    rate = 1.5\nelif units_used < 90:\n    rate = 2.5\nelse:\n    rate = 4.5\nbill = units_used * rate\nprint(f\"Units Used: {units_used}\")\nprint(f\"Electricity Bill: LKR {bill:.2f}\")",
+
+    "def calculate_bill(units):\n    if units < 30:\n        return units * 1.5\n    elif units < 90:\n        return units * 2.5\n    else:\n        return units * 4.5\nprev = float(input(\"Enter previous reading: \"))\npresent = float(input(\"Enter present reading: \"))\nunits = present - prev\nbill = calculate_bill(units)\nprint(f\"Units Used: {units}\")\nprint(f\"Electricity Bill: LKR {bill:.2f}\")",
+
+    "while True:\n    prev = float(input(\"Enter previous reading: \"))\n    present = float(input(\"Enter present reading: \"))\n    if present >= prev:\n        break\n    else:\n        print(\"Present reading must be greater than or equal to previous reading.\")\nunits = present - prev\nif units < 30:\n    rate = 1.5\nelif units < 90:\n    rate = 2.5\nelse:\n    rate = 4.5\nbill = units * rate\nprint(f\"Units Used: {units}\")\nprint(f\"Electricity Bill: LKR {bill:.2f}\")"
+  ], "max_marks": 10}
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "question": "Q1a",
+    "expected": "1335 1557 232 2DD 1B7 9A",
+    "max_marks": 6
+  },
+  {
+    "question": "Q1b",
+    "expected": "11101000010 100000110 1D0A 106",
+    "max_marks": 4
+  },
+  {
+    "question": "Q1c",
+    "expected": "1011000100110010 11010111111110 26062 12776",
+    "max_marks": 4
+  },
+  {
+    "question": "Q1d",
+    "expected": "10011011 110100001000 1011110111 233 6500 1377",
+    "max_marks": 6
+  },
+  {
+    "question": "Q2a",
+    "expected": "and:0001 or:0111",
+    "max_marks": 8
+  },
+  {
+    "question": "Q2bi",
+    "expected": "10 01",
+    "max_marks": 2
+  },
+  {
+    "question": "Q2bii",
+    "expected": "001 011 100 111",
+    "max_marks": 8
+  },
+  {
+    "question": "Q2biii",
+    "expected": "B = \u00acP + L",
+    "alternatives": [
+      "B = NOT P OR L",
+      "B = ~P + L"
+    ],
+    "max_marks": 12
+  },
+  {
+    "question": "Q3a",
+    "expected_keywords": [
+      "xeon",
+      "epyc",
+      "ecc",
+      "ssd",
+      "raid",
+      "pos",
+      "ups",
+      "firewall"
+    ],
+    "evaluation": "keyword_weighted",
+    "max_marks": 30
+  },
+  {
+    "question": "Q3b",
+    "expected_keywords": [
+      "windows",
+      "ubuntu",
+      "security",
+      "erp",
+      "domain",
+      "integration"
+    ],
+    "evaluation": "keyword_weighted",
+    "max_marks": 20
+  }
+]
