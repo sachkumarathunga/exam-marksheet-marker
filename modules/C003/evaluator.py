@@ -47,7 +47,7 @@ def score_student(student_answers, guide):
                 "question": qid,
                 "student_answer": "No answer given",
                 "awarded": 0,
-                "feedback": "❌ No answer provided",
+                "feedback": " No answer provided",
                 "max_marks": max_marks
             })
             continue
@@ -60,13 +60,13 @@ def score_student(student_answers, guide):
             norm_exp = normalize_expression(expected)
             if norm_stud == norm_exp:
                 awarded = max_marks
-                feedback = "✅ Expression is correct"
+                feedback = " Expression is correct"
             elif fuzzy_match(norm_stud, norm_exp) >= 0.8:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partially correct expression"
+                feedback = " Partially correct expression"
             else:
                 awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Incorrect expression"
+                feedback = " Incorrect expression"
 
         elif qid.startswith("Q2a_tt"):
             expected_vals = list("".join(re.findall(r"[01]", expected)))
@@ -75,13 +75,13 @@ def score_student(student_answers, guide):
             ratio = matched / len(expected_vals) if expected_vals else 0
             if ratio == 1:
                 awarded = max_marks
-                feedback = "✅ Truth table is fully correct"
+                feedback = " Truth table is fully correct"
             elif ratio >= 0.5:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partially correct truth table"
+                feedback = " Partially correct truth table"
             else:
                 awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Incorrect truth table"
+                feedback = " Incorrect truth table"
 
         elif qid == "Q2b_tt":
             expected_map = normalize_truth_map(expected)
@@ -90,57 +90,57 @@ def score_student(student_answers, guide):
             ratio = matched / len(expected_map) if expected_map else 0
             if ratio == 1:
                 awarded = max_marks
-                feedback = "✅ Logic map fully correct"
+                feedback = " Logic map fully correct"
             elif ratio >= 0.5:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partial logic truth table"
+                feedback = " Partial logic truth table"
             else:
                 awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Incorrect logic map"
+                feedback = " Incorrect logic map"
 
         elif qid == "Q2b_eqn":
             if normalize_expression(student_answer) == normalize_expression(expected):
                 awarded = max_marks
-                feedback = "✅ Correct Boolean equation"
+                feedback = " Correct Boolean equation"
             else:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partially matched Boolean equation"
+                feedback = " Partially matched Boolean equation"
 
         elif qid == "Q2b_circuit":
             if fuzzy_match(student_answer, expected) >= 0.8:
                 awarded = max_marks
-                feedback = "✅ Circuit description accurate"
+                feedback = " Circuit description accurate"
             else:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Some elements missing in circuit explanation"
+                feedback = " Some elements missing in circuit explanation"
 
         elif evaluation == "keyword_weighted":
             matched_keywords = [kw for kw in keywords if kw.lower() in cleaned_answer]
             ratio = len(matched_keywords) / len(keywords) if keywords else 0
 
-            # ✅ Flexibility for Diploma level: if 3+ relevant keywords present, full marks
+            #  Flexibility for Diploma level: if 3+ relevant keywords present, full marks
             if ratio >= 0.8 or len(matched_keywords) >= 3:
                 awarded = max_marks
-                feedback = "✅ Keywords sufficient for diploma level"
+                feedback = " Keywords sufficient for diploma level"
             elif ratio >= 0.5:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partial keyword match"
+                feedback = " Partial keyword match"
             else:
                 awarded = round(max_marks * 0.4)
-                feedback = "⚠️ Few relevant terms present"
+                feedback = " Few relevant terms present"
 
         else:
             correct = sum(1 for val in expected_list if val.lower() in tokens)
             ratio = correct / len(expected_list) if expected_list else 0
             if ratio == 1:
                 awarded = max_marks
-                feedback = "✅ Fully correct"
+                feedback = " Fully correct"
             elif ratio >= 0.5:
                 awarded = round(max_marks * 0.6)
-                feedback = "🟡 Partially correct"
+                feedback = " Partially correct"
             else:
                 awarded = round(max_marks * 0.4)
-                feedback = "⚠️ Mostly incorrect"
+                feedback = " Mostly incorrect"
 
         results.append({
             "question": qid,

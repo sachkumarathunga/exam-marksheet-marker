@@ -29,7 +29,7 @@ def score_student(student_answers, guide):
                 "student_answer": "No answer given",
                 "score": 0,
                 "awarded": 0,
-                "feedback": "❌ No answer provided",
+                "feedback": " No answer provided",
                 "max_marks": max_mark
             })
             continue
@@ -46,13 +46,13 @@ def score_student(student_answers, guide):
 
         if matched or best_score >= 90:
             awarded = max_mark
-            feedback = "✅ Fully correct"
+            feedback = " Fully correct"
         elif best_score >= 60:
             awarded = round(max_mark * 0.6)
-            feedback = "🟡 Partially correct — logic is mostly present"
+            feedback = " Partially correct — logic is mostly present"
         else:
             awarded = max(1, round(max_mark * 0.25))
-            feedback = "❌ Incorrect — but attempted"
+            feedback = " Incorrect — but attempted"
 
         results.append({
             "question": question_id,
