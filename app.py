@@ -51,7 +51,7 @@ if uploaded_file:
         marking_guide = json.load(f)
 
     # Score student answers
-    results, total, max_total = evaluator_module.score_student(student_answers, marking_guide)
+    results, total, max_total, percentage = evaluator_module.score_student(student_answers, marking_guide)
 
     # Generate result PDF
     generate_result_pdf(full_text, results, total, max_total, output_path="student_marked_result.pdf")
@@ -63,6 +63,7 @@ if uploaded_file:
 
     # Optional: show results in app
     st.subheader("📝 Evaluation Summary:")
+    st.markdown(f"**Total Marks:** `{total}` / `{max_total}`  | **Percentage:** `{percentage}%`")
     for r in results:
         st.markdown(f"**Question: `{r['question']}`**")
         st.markdown(f"- Answer Given: `{r['student_answer']}`")

@@ -11,16 +11,18 @@ def generate_result_pdf(student_text, results, total, max_total, output_path="st
     pdf.add_page()
     pdf.set_auto_page_break(auto=True, margin=15)
 
-    # 🔴 Red Final Score Heading
+    # ✅ Final score scaled to 100
+    scaled_score = round((total / max_total) * 100, 2) if max_total else 0
+
     pdf.set_font("Arial", 'B', 16)
     pdf.set_text_color(255, 0, 0)  # Red
-    pdf.cell(200, 10, txt=f"Final Marks: {total}/{max_total}  ({round((total / max_total) * 100, 2)}%)", ln=True, align='C')
+    pdf.cell(200, 10, txt=f"Final Marks: {scaled_score}/100", ln=True, align='C')
 
     # Reset text color
     pdf.set_text_color(0, 0, 0)
     pdf.ln(8)
 
-    # 📝 Evaluation Summary Only
+    # 📝 Evaluation Summary
     pdf.set_font("Arial", 'B', 14)
     pdf.cell(200, 10, txt="Evaluation Summary", ln=True)
     pdf.set_font("Arial", size=11)

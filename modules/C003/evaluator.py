@@ -1,3 +1,4 @@
+# Updated evaluator.py with flexible marking for diploma-level students (Q3 and Q4)
 import re
 import difflib
 
@@ -5,19 +6,25 @@ def clean_text(text):
     if not isinstance(text, str):
         return ""
     text = text.lower()
-    text = re.sub(r'[^\w\s]', '', text)
+    text = re.sub(r'[^\w\s\u2192]+', '', text)  # Allow "→" symbol
     return text.strip()
 
 def extract_values(text):
     return re.findall(r"[A-Za-z0-9]+", text)
 
 def normalize_expression(expr):
-    expr = expr.lower().replace("b =", "").replace("=", "").replace("¬", "").replace("~", "").replace("!", "")
+    expr = expr.lower().replace("b =", "").replace("=", "").replace("\u00ac", "").replace("~", "").replace("!", "")
     expr = expr.replace("or", "+").replace("not", "")
     return re.sub(r'\s+', '', expr)
 
 def fuzzy_match(a, b):
     return difflib.SequenceMatcher(None, a.strip().lower(), b.strip().lower()).ratio()
+
+def expand_compact_binary(text):
+    return list("".join(re.findall(r"[01]", text)))
+
+def normalize_truth_map(text):
+    return dict(re.findall(r"(\d{4})\s*\u2192\s*([01])", text))
 
 def score_student(student_answers, guide):
     results = []
@@ -29,7 +36,6 @@ def score_student(student_answers, guide):
         expected = item.get("expected", "")
         expected_list = expected.split()
         max_marks = item.get("max_marks", 0)
-        alternatives = item.get("alternatives", [])
         keywords = item.get("expected_keywords", [])
         evaluation = item.get("evaluation", "default")
 
@@ -49,76 +55,80 @@ def score_student(student_answers, guide):
         cleaned_answer = clean_text(student_answer)
         tokens = extract_values(cleaned_answer)
 
-        # ✅ Q2a: Logic Table for AND & OR
-        if qid == "Q2a":
-            and_match = re.search(r'and[:\s]*([01]{4})', student_answer.lower())
-            or_match = re.search(r'or[:\s]*([01]{4})', student_answer.lower())
-            if and_match and or_match:
-                if and_match.group(1) == "0001" and or_match.group(1) == "0111":
-                    awarded = max_marks
-                    feedback = "✅ Fully correct"
-                else:
-                    awarded = round(max_marks * 0.6)
-                    feedback = "🟡 Partial mismatch in logic outputs"
+        if qid.startswith("Q2a_expr"):
+            norm_stud = normalize_expression(student_answer)
+            norm_exp = normalize_expression(expected)
+            if norm_stud == norm_exp:
+                awarded = max_marks
+                feedback = "✅ Expression is correct"
+            elif fuzzy_match(norm_stud, norm_exp) >= 0.8:
+                awarded = round(max_marks * 0.6)
+                feedback = "🟡 Partially correct expression"
             else:
                 awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Logic outputs incorrect"
+                feedback = "❌ Incorrect expression"
 
-        # ✅ Q2bi: NOT Gate Answer Handling
-        elif qid == "Q2bi":
-            patterns = {
-                "1": "0",
-                "0": "1"
-            }
-            all_correct = True
-            for inp, expected_out in patterns.items():
-                match = re.search(rf"input\s*{inp}[:\s]*{expected_out}", student_answer.lower())
-                if not match:
-                    all_correct = False
-                    break
-            if all_correct:
+        elif qid.startswith("Q2a_tt"):
+            expected_vals = list("".join(re.findall(r"[01]", expected)))
+            student_vals = expand_compact_binary(student_answer)
+            matched = sum(1 for i, val in enumerate(expected_vals) if i < len(student_vals) and student_vals[i] == val)
+            ratio = matched / len(expected_vals) if expected_vals else 0
+            if ratio == 1:
                 awarded = max_marks
-                feedback = "✅ Fully correct"
+                feedback = "✅ Truth table is fully correct"
+            elif ratio >= 0.5:
+                awarded = round(max_marks * 0.6)
+                feedback = "🟡 Partially correct truth table"
             else:
                 awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Incorrect NOT gate outputs"
+                feedback = "❌ Incorrect truth table"
 
-        # ✅ Q2biii: Boolean Logic Expression
-        elif qid == "Q2biii":
-            normalized_student = normalize_expression(student_answer)
-            normalized_expected = normalize_expression(expected)
-            normalized_alternatives = [normalize_expression(a) for a in alternatives]
-
-            if normalized_student == normalized_expected or normalized_student in normalized_alternatives:
+        elif qid == "Q2b_tt":
+            expected_map = normalize_truth_map(expected)
+            student_map = normalize_truth_map(student_answer)
+            matched = sum(1 for k in expected_map if student_map.get(k) == expected_map[k])
+            ratio = matched / len(expected_map) if expected_map else 0
+            if ratio == 1:
                 awarded = max_marks
-                feedback = "✅ Fully correct"
+                feedback = "✅ Logic map fully correct"
+            elif ratio >= 0.5:
+                awarded = round(max_marks * 0.6)
+                feedback = "🟡 Partial logic truth table"
             else:
-                best_score = max(fuzzy_match(normalized_student, a) for a in [normalized_expected] + normalized_alternatives)
-                if best_score >= 0.9:
-                    awarded = max_marks
-                    feedback = "✅ Close match"
-                elif best_score >= 0.6:
-                    awarded = round(max_marks * 0.6)
-                    feedback = "🟡 Partially correct"
-                else:
-                    awarded = max(1, round(max_marks * 0.25))
-                    feedback = "❌ Incorrect logic"
+                awarded = max(1, round(max_marks * 0.25))
+                feedback = "❌ Incorrect logic map"
 
-        # ✅ Keyword-Based Evaluation (e.g., Q3a, Q3b)
+        elif qid == "Q2b_eqn":
+            if normalize_expression(student_answer) == normalize_expression(expected):
+                awarded = max_marks
+                feedback = "✅ Correct Boolean equation"
+            else:
+                awarded = round(max_marks * 0.6)
+                feedback = "🟡 Partially matched Boolean equation"
+
+        elif qid == "Q2b_circuit":
+            if fuzzy_match(student_answer, expected) >= 0.8:
+                awarded = max_marks
+                feedback = "✅ Circuit description accurate"
+            else:
+                awarded = round(max_marks * 0.6)
+                feedback = "🟡 Some elements missing in circuit explanation"
+
         elif evaluation == "keyword_weighted":
             matched_keywords = [kw for kw in keywords if kw.lower() in cleaned_answer]
             ratio = len(matched_keywords) / len(keywords) if keywords else 0
-            if ratio >= 0.8:
+
+            # ✅ Flexibility for Diploma level: if 3+ relevant keywords present, full marks
+            if ratio >= 0.8 or len(matched_keywords) >= 3:
                 awarded = max_marks
-                feedback = "✅ Most keywords matched"
+                feedback = "✅ Keywords sufficient for diploma level"
             elif ratio >= 0.5:
                 awarded = round(max_marks * 0.6)
                 feedback = "🟡 Partial keyword match"
             else:
-                awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Keywords insufficient"
+                awarded = round(max_marks * 0.4)
+                feedback = "⚠️ Few relevant terms present"
 
-        # ✅ Default: Token match for conversion-based answers
         else:
             correct = sum(1 for val in expected_list if val.lower() in tokens)
             ratio = correct / len(expected_list) if expected_list else 0
@@ -129,8 +139,8 @@ def score_student(student_answers, guide):
                 awarded = round(max_marks * 0.6)
                 feedback = "🟡 Partially correct"
             else:
-                awarded = max(1, round(max_marks * 0.25))
-                feedback = "❌ Mostly incorrect"
+                awarded = round(max_marks * 0.4)
+                feedback = "⚠️ Mostly incorrect"
 
         results.append({
             "question": qid,
@@ -139,6 +149,8 @@ def score_student(student_answers, guide):
             "feedback": feedback,
             "max_marks": max_marks
         })
+
         total += awarded
 
-    return results, round(total, 2), max_total
+    final_score = round((total / max_total) * 100, 2) if max_total else 0
+    return results, round(total, 2), max_total, final_score

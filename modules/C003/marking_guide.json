@@ -1,74 +1,137 @@
 [
   {
     "question": "Q1a",
-    "expected": "1335 1557 232 2DD 1B7 9A",
+    "expected": "1355 1567 232 2DD 1B3 9A",
     "max_marks": 6
   },
   {
     "question": "Q1b",
-    "expected": "11101000010 100000110 1D0A 106",
-    "max_marks": 4
+    "expected": "011101000010 001000000110 010010011100 100011010001 110111101011 1D12 206 24E 1A1 37B",
+    "max_marks": 5
   },
   {
     "question": "Q1c",
-    "expected": "1011000100110010 11010111111110 26062 12776",
-    "max_marks": 4
+    "expected": "110001110100 010100111111 1011000100110010 0001101011111110 14364 12377 130314 15376",
+    "max_marks": 8
   },
   {
     "question": "Q1d",
-    "expected": "10011011 110100001000 1011110111 233 6500 1377",
+    "expected": "10011011 110100001000 101111011 233 6500 1367",
     "max_marks": 6
   },
   {
-    "question": "Q2a",
-    "expected": "and:0001 or:0111",
-    "max_marks": 8
+    "question": "Q2a_expr1",
+    "expected": "(A·B·C) + (A·(~B + ~C))",
+    "max_marks": 4
   },
   {
-    "question": "Q2bi",
-    "expected": "10 01",
+    "question": "Q2a_tt1",
+    "expected": "00000011",
+    "max_marks": 1
+  },
+  {
+    "question": "Q2a_expr2",
+    "expected": "(P·(~Q + R)) + Q",
+    "max_marks": 4
+  },
+  {
+    "question": "Q2a_tt2",
+    "expected": "00011111",
+    "max_marks": 1
+  },
+  {
+    "question": "Q2a_expr3",
+    "expected": "(~(P·Q) + (P·R)) · ~R",
+    "max_marks": 4
+  },
+  {
+    "question": "Q2a_tt3",
+    "expected": "10110100",
+    "max_marks": 1
+  },
+  {
+    "question": "Q2b_tt",
+    "expected": "0000→0 0001→1 0010→1 0011→1 0100→1 0101→1 0110→1 0111→1 1000→1 1001→1 1010→1 1011→1 1100→1 1101→1 1110→1 1111→1",
+    "max_marks": 4
+  },
+  {
+    "question": "Q2b_eqn",
+    "expected": "X = A + B + C + D",
     "max_marks": 2
   },
   {
-    "question": "Q2bii",
-    "expected": "001 011 100 111",
-    "max_marks": 8
-  },
-  {
-    "question": "Q2biii",
-    "expected": "B = \u00acP + L",
-    "alternatives": [
-      "B = NOT P OR L",
-      "B = ~P + L"
-    ],
-    "max_marks": 12
+    "question": "Q2b_circuit",
+    "expected": "Connect A, B, C, D to a 4-input OR gate to get X as the output.",
+    "max_marks": 4
   },
   {
     "question": "Q3a",
     "expected_keywords": [
       "xeon",
-      "epyc",
+      "64gb",
       "ecc",
       "ssd",
       "raid",
+      "core i5",
+      "512gb",
+      "core i3",
+      "256gb",
       "pos",
-      "ups",
-      "firewall"
+      "scanner",
+      "printer"
     ],
     "evaluation": "keyword_weighted",
-    "max_marks": 30
+    "max_marks": 15
   },
   {
     "question": "Q3b",
     "expected_keywords": [
-      "windows",
-      "ubuntu",
-      "security",
-      "erp",
-      "domain",
-      "integration"
+      "windows server",
+      "ubuntu server",
+      "windows 10",
+      "linux mint"
     ],
     "evaluation": "keyword_weighted",
-    "max_marks": 20
+    "max_marks": 10
+  },
+  {
+    "question": "Q4a",
+    "expected_keywords": [
+      "alu",
+      "control unit",
+      "registers",
+      "cache",
+      "clock",
+      "system bus",
+      "instruction decoder",
+      "program counter"
+    ],
+    "evaluation": "keyword_weighted",
+    "max_marks": 8
+  },
+  {
+    "question": "Q4b",
+    "expected_keywords": [
+      "execute instructions",
+      "calculations",
+      "logic",
+      "data flow",
+      "system operations"
+    ],
+    "evaluation": "keyword_weighted",
+    "max_marks": 7
+  },
+  {
+    "question": "Q4c",
+    "expected_keywords": [
+      "alu",
+      "cache",
+      "registers",
+      "clock",
+      "pipelining",
+      "multicore"
+    ],
+    "evaluation": "keyword_weighted",
+    "max_marks": 10
   }
 ]

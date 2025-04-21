@@ -14,7 +14,8 @@ def extract_text_from_pdf(file_path):
     capture = False
 
     for line in lines:
-        match = re.match(r"^(Q\d+[a-zA-Z\.]*)\)?", line.strip(), re.IGNORECASE)
+        # Detect question label like Q2a_expr1, Q3a, etc.
+        match = re.match(r"^(Q\d+[a-zA-Z0-9_]*)\)?", line.strip(), re.IGNORECASE)
         if match:
             if current_question and answer_buffer:
                 answers[current_question] = "\n".join(answer_buffer).strip()
@@ -23,6 +24,7 @@ def extract_text_from_pdf(file_path):
             capture = False
             continue
 
+        # Start capturing if "Answer:" line appears
         if "answer:" in line.lower():
             capture = True
             ans_part = line.split("Answer:", 1)[-1].strip()
@@ -37,4 +39,3 @@ def extract_text_from_pdf(file_path):
         answers[current_question] = "\n".join(answer_buffer).strip()
 
     return text, answers
-
